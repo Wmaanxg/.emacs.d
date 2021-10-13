@@ -1,4 +1,4 @@
-
+(package-initialize)
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -8,6 +8,25 @@
 ;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
 ;; and `package-pinned-packages`. Most users will not need or want to do this.
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["#3c3836" "#fb4933" "#b8bb26" "#fabd2f" "#83a598" "#d3869b" "#8ec07c" "#ebdbb2"])
+ '(custom-safe-themes
+   (quote
+    ("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default)))
+ '(package-selected-packages (quote (gruvbox-theme web-mode jdee use-package)))
+ '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;; enable straight
 (defvar bootstrap-version)
@@ -23,35 +42,37 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; install and configure helm
+;; use and install helm if not present
 (straight-use-package 'helm)
+
+
+;;; End package related configs
+
+
+;; Helm settings
 (global-set-key (kbd "M-x") #'helm-M-x)
 (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") #'helm-find-files)
 (setq helm-split-window-in-side-p t) ; open helm buffer inside current window, not occupy whole other window
-(helm-mode 1)
+(helm-mode 1) ; turn on helm
 
-(package-initialize)
 
+;; Web mode indentations
+(use-package web-mode
+  :custom
+  (web-mode-markup-indent-offset 2)
+  (web-mode-css-indent-offset 2)
+  (web-mode-code-indent-offset 2))
+
+;; Enable Company mode for all buffers
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Set show paren mode
+(show-paren-mode 1)
 
 ;; define load path
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; set theme
-(load-theme 'gruvbox t)
+(load-theme 'gruvbox-dark-soft t)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default)))
- '(package-selected-packages (quote (gruvbox-theme web-mode jdee))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

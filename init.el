@@ -83,7 +83,10 @@
 (defun dired-find-file-other-frame ()
   "In Dired, visit this file or directory in another window."
   (interactive)
-  (other-frame 1)
-  (find-file (dired-get-file-for-visit)))
+  (let (
+	(f (dired-get-file-for-visit))
+	)
+    (other-frame 1)
+    (find-file f)))
 (eval-after-load "dired"
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))

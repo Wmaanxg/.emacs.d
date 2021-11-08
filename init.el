@@ -19,7 +19,13 @@
  '(custom-safe-themes
    (quote
     ("83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default)))
- '(package-selected-packages (quote (gruvbox-theme web-mode jdee use-package)))
+ '(package-selected-packages (quote (gruvbox-theme
+				     use-package
+				     web-mode
+				     jdee
+				     company
+				     imenu-list
+				     )))
  '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -75,6 +81,9 @@
 
 ;; set theme
 (load-theme 'gruvbox-dark-soft t)
+
+;; shortcut for imenu-list
+(global-set-key (kbd "C-'") #'imenu-list-smart-toggle)
 
 ;; Suppress welcome screen
 (setq inhibit-startup-screen t)

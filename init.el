@@ -25,6 +25,10 @@
 				     jdee
 				     company
 				     imenu-list
+				     flymake
+				     eglot
+				     helm-gtags
+				     eldoc-box
 				     )))
  '(pdf-view-midnight-colors (quote ("#fdf4c1" . "#32302f"))))
 (custom-set-faces
@@ -88,6 +92,12 @@
 ;; Suppress welcome screen
 (setq inhibit-startup-screen t)
 
+;; Show column number
+(column-number-mode 1)
+
+;; Activate windmove bindings
+(windmove-default-keybindings)
+
 ;; Extra function for dired to open files in other frame
 (defun dired-find-file-other-frame ()
   "In Dired, visit this file or directory in another window."
@@ -99,3 +109,32 @@
     (find-file f)))
 (eval-after-load "dired"
   '(define-key dired-mode-map "F" 'dired-find-file-other-frame))
+
+
+;; C/C++ settings
+(require 'eglot)
+(add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+
+
+;; helm-gtags
+(setq
+ helm-gtags-ignore-case t
+ helm-gtags-auto-update t
+ helm-gtags-use-input-at-cursor t
+ helm-gtags-pulse-at-cursor t
+ helm-gtags-prefix-key "\C-cg"
+ helm-gtags-suggested-key-mapping t
+ )
+(require 'helm-gtags)
+;; Enable helm-gtags-mode
+(add-hook 'dired-mode-hook 'helm-gtags-mode)
+(add-hook 'eshell-mode-hook 'helm-gtags-mode)
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+(define-key helm-gtags-mode-map (kbd "M-.") nil) ;; Do not conflict with existing stuff
+(define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+(define-key helm-gtags-mode-map (kbd "C-c g .") 'helm-gtags-dwim)
